@@ -1,0 +1,91 @@
+/* General page */
+.page-body {
+    margin: 30px;
+    font-family: Arial, sans-serif;
+}
+
+/* Search and Add button */
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    flex: 0 1 auto;
+    min-width: 0;
+}
+
+.search-input {
+    width: 250px;
+    box-sizing: border-box;
+}
+
+.add-button {
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* Table */
+.id-column {
+    width: 50px;
+}
+
+.table-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.table-calendar {
+    width: 100%;
+}
+
+.row-editor-column {
+    width: 6rem;
+    text-align: center;
+}
+
+.delete-column {
+    width: 5rem;
+    text-align: center;
+}
+
+/* Dialog */
+.client-dialog {
+    max-width: 95vw;
+}
+
+.dialog-grid {
+    width: 100%;
+}
+
+.dialog-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dialog-calendar {
+    width: 100%;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.save-button {
+    margin-right: 0;
+}

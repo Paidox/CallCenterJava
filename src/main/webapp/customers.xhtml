@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Customer Management</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+</h:head>
+
+<h:body styleClass="page-body">
+
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+
+        <div class="toolbar">
+            <div class="search-container">
+                <p:inputText value="#{clientBean.searchQuery}" placeholder="Search by name..." styleClass="search-input"/>
+                <p:commandButton value="Search" icon="pi pi-search" action="#{clientBean.search}" update="clientTable" styleClass="ui-button-outlined"/>
+            </div>
+
+            <p:commandButton value="Add New Customer" icon="pi pi-plus" oncomplete="PF('clientDialog').show()" styleClass="ui-button-success add-button"/>
+        </div>
+
+        <p:dataTable id="clientTable" value="#{clientBean.clients}" var="c" editable="true" paginator="true" rows="5" rowKey="#{c.id}" paginatorPosition="bottom" emptyMessage="No clients found.">
+
+            <p:ajax event="rowEdit" listener="#{clientBean.update}" update=":form:msgs"/>
+
+            <p:column headerText="ID" styleClass="id-column">
+                <h:outputText value="#{c.id}"/>
+            </p:column>
+
+            <p:column headerText="Full Name">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{c.fullName}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{c.fullName}" styleClass="table-input"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Phone Number">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{c.phoneNumber}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{c.phoneNumber}" styleClass="table-input"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="City">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{c.city}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{c.city}" styleClass="table-input"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Country">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{c.country}"/></f:facet>
+                    <f:facet name="input"><p:inputText value="#{c.country}" styleClass="table-input"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Birth Date">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{c.birthDate}">
+                            <f:convertDateTime type="localDate" pattern="dd.MM.yyyy"/>
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:calendar value="#{c.birthDate}" pattern="dd.MM.yyyy" mask="true" styleClass="table-calendar">
+                            <f:convertDateTime type="localDate" pattern="dd.MM.yyyy"/>
+                        </p:calendar>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column styleClass="row-editor-column">
+                <p:rowEditor editTitle="Edit" cancelTitle="Cancel" saveTitle="Save"/>
+            </p:column>
+
+            <p:column styleClass="delete-column">
+                <p:commandButton icon="pi pi-trash" action="#{clientBean.delete(c)}" update=":form:clientTable :form:msgs" styleClass="ui-button-danger"/>
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+
+    <p:dialog header="Add New Customer" widgetVar="clientDialog" modal="true" resizable="false" width="420" responsive="true" styleClass="client-dialog">
+        <h:form id="dialogForm">
+            <h:panelGrid columns="2" cellpadding="5" styleClass="dialog-grid">
+
+                <p:outputLabel for="fullName" value="Full Name:"/>
+                <p:inputText id="fullName" value="#{clientBean.client.fullName}" required="true" styleClass="dialog-input"/>
+
+                <p:outputLabel for="phone" value="Phone Number:"/>
+                <p:inputText id="phone" value="#{clientBean.client.phoneNumber}" styleClass="dialog-input"/>
+
+                <p:outputLabel for="city" value="City:"/>
+                <p:inputText id="city" value="#{clientBean.client.city}" styleClass="dialog-input"/>
+
+                <p:outputLabel for="country" value="Country:"/>
+                <p:inputText id="country" value="#{clientBean.client.country}" styleClass="dialog-input"/>
+
+                <p:outputLabel for="birthDate" value="Birth Date:"/>
+                <p:calendar id="birthDate" value="#{clientBean.client.birthDate}" pattern="dd.MM.yyyy" mask="true" styleClass="dialog-calendar">
+                    <f:convertDateTime type="localDate" pattern="dd.MM.yyyy"/>
+                </p:calendar>
+
+            </h:panelGrid>
+
+            <div class="dialog-buttons">
+                <p:commandButton value="Save" icon="pi pi-check" action="#{clientBean.add}" update=":form:clientTable :form:msgs dialogForm" oncomplete="if (!args.validationFailed) PF('clientDialog').hide();" styleClass="ui-button-success save-button"/>
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('clientDialog').hide()" type="button" styleClass="ui-button-secondary"/>
+            </div>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+</html>
